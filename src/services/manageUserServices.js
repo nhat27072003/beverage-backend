@@ -19,7 +19,8 @@ const getPage = async (page, limit) => {
     let offset = (page - 1) * limit;
 
     let sqlString = `
-    SELECT userID, username, email, address, phone FROM Users
+    SELECT u.userID, u.username, u.email, u.address, u.phone, r.name as role FROM Users u
+    JOIN Role r ON r.id = u.role
     ORDER BY userID
     OFFSET @cur ROWS
     FETCH NEXT @limit ROWS ONLY
