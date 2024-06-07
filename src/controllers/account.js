@@ -1,6 +1,6 @@
 const { pool, sql } = require('../config/database');
 const { check, validationResult } = require('express-validator');
-const { getAccount, signAccount } = require('../services/accountServices');
+const { getAccount, signAccount, detailUser } = require('../services/accountServices');
 
 const getAllAccount = async (req, res) => {
   var sqlstring = 'SELECT * FROM Users';
@@ -20,6 +20,23 @@ const getAllAccount = async (req, res) => {
   }
 };
 
+const getDetailUser = async (req, res) => {
+  if (req.params.userId) {
+    const result = await detailUser(req.params.userId);
+    res.status(200).json({
+      EC: result.EC,
+      EM: result.EM,
+      DT: result.DT
+    })
+  }
+  else res.json(
+    {
+      EC: 2,
+      EM: "error params",
+      DT: []
+    }
+  )
+}
 const handleGetAccount = async (req, res) => {
   if (!req.body.username || !req.body.password) {
     return res.status(200).json({
@@ -67,4 +84,5 @@ module.exports = {
   handleGetAccount,
   getAllAccount,
   handleSignAccount,
+  getDetailUser
 }

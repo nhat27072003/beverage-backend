@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { getAllAccount, handleGetAccount, handleSignAccount } = require('../controllers/account');
+const { getAllAccount, handleGetAccount, handleSignAccount, getDetailUser } = require('../controllers/account');
 const { handleGetDetailProduct, handleGetAllProduct, handleGetPopular } = require('../controllers/getProduct');
 const { deleteProduct, handleUpdateProducct, handleAddProduct } = require('../controllers/manageProduct');
 const { handleAddCart, handleGetTotalCart, handleGetCart, handleDeleteCart } = require('../controllers/manageCart');
@@ -10,6 +10,8 @@ const { handleGetPage } = require('../controllers/manageUser');
 const upload = require('../config/saveImage');
 
 router.get('/acount', getAllAccount);
+
+router.get('/detail-user/:userId', getDetailUser);
 
 router.post('/login', handleGetAccount);
 

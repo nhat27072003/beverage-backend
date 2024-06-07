@@ -76,8 +76,33 @@ const signAccount = async (user) => {
   }
   else return false;
 }
+const detailUser = async (userID) => {
+  try {
+    var sqlstr = `select u.userID, u.username, u.email, u.name, u.address, u.phone, r.name as role 
+                from Users u join Role r on r.id=u.role
+                where u.userID = @userID`;
 
+    await pool.connect();
+    const result = await pool.request()
+      .input('userID', sql.Int, userID)
+      .query(sqlstr);
+
+    return {
+      EC: 0,
+      EM: "OK",
+      DT: result.recordset[0]
+    }
+  }
+  catch (error) {
+    return {
+      EC: 1,
+      EM: "server error",
+      DT: []
+    }
+  }
+}
 module.exports = {
   getAccount,
   signAccount,
+  detailUser
 }
